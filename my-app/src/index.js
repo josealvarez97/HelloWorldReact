@@ -83,14 +83,18 @@ class Board extends React.Component {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
+            xIsNext: true,
         };
     }
 
     handleClick(i) {
         const squares = this.state.squares.slice();// was slick needed?
         // We call .slice() to copy the squares array instead of mutating the existing array.
-        squares[i] = 'X';
-        this.setState({squares:squares}); // update...
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            squares:squares,
+            xIsNext: !this.state.xIsNext,
+        }); // update...
     }
 
     renderSquare(i) {
@@ -107,7 +111,7 @@ class Board extends React.Component {
     }
 
     render() {
-        const status = 'Next player: X';
+        const status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
 
         return (
             <div>
