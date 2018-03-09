@@ -13,7 +13,14 @@ import './index.css';
 //Rather than define a class extending React.Component, 
 //simply write a function that takes props and returns 
 //what should be rendered."
-function Square(props)
+function Square(props) {
+    return (
+        <button className="square"
+        onClick={props.onClick}>
+        {props.value}
+        </button>
+    );
+}
 
 
 
