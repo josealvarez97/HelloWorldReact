@@ -87,6 +87,7 @@ class Board extends React.Component {
         };
     }
 
+
     handleClick(i) {
         const squares = this.state.squares.slice();// was slick needed?
         // We call .slice() to copy the squares array instead of mutating the existing array.
@@ -99,7 +100,7 @@ class Board extends React.Component {
         this.setState({
             squares:squares,
             xIsNext: !this.state.xIsNext,
-        }); // update...
+        }); // update changes
     }
 
     renderSquare(i) {
