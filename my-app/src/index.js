@@ -90,6 +90,11 @@ class Board extends React.Component {
     handleClick(i) {
         const squares = this.state.squares.slice();// was slick needed?
         // We call .slice() to copy the squares array instead of mutating the existing array.
+        
+        if (calculateWinner(squares) || squares[i]) {
+            return;
+        }
+        
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             squares:squares,
@@ -111,7 +116,16 @@ class Board extends React.Component {
     }
 
     render() {
-        const status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
+        let status;
+        const winner = calculateWinner(this.state.squares.slice());
+        if (!winner) { 
+            status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
+        } else {
+            status = 'WINNER: ' + winner;
+        }
+
+        // var context_text = calculateWinner(this.state.squares) == null?  
+        // const status = calculateWinner(this.state.squares) == null? 'Next player:' 
 
         return (
             <div>
@@ -150,7 +164,34 @@ class Game extends React.Component {
         </div>
       );
     }
-  }
+}
+
+function calculateWinner(squares) {
+    // possible combinations for winning
+    const lines = [
+        // Horizontals
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        // Verticals
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        // Diagnoals
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
+}
+
+
   
   // ========================================
   
