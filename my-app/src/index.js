@@ -3,42 +3,64 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-//Square no longer keeps its own state; it receives its 
-//value from its parent Board and informs its parent when 
-//it’s clicked. We call components like this 
-//controlled components.
-class Square extends React.Component {
-
-    // We are not using the state property of Square
-    // Or "it doesn't have a state anymore"
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         value: null,
-    //     };
-    // }
 
 
-    render() {
-        return (
-            //Now when the Square is clicked, it will call the onClick function that was passed through by Board.
-            // The onClick prop on the Built-in DOM <button> tells React to set up a click event listener.
-            // When the button is clicked, React will call the onClick event handler defined in Square's render() method.
-                // "Specified"? Function was defined somewhere else.
-            // This event handler calls this.props.onClick(). Sauare's props were specified by the Board.
-            // Board passed onClick = {() => this.handleClick(i)} tp SqUare, so, 
-                // when called, it runs this.handleClick(i) on the Board.
-                // notice *****(i)*****
-            <button className="square" onClick={()=>this.props.onClick()}>
-            {this.props.value}
-            </button>
-        );
-        //Note that DOM <button> element’s onClick attribute has a special meaning to React, 
-        //but we could have named Square’s onClick prop or Board’s handleClick method differently. 
-        //It is, however, conventional in React apps to use on* names for the attributes and handle* 
-        //for the handler methods.
-    }
-}
+// FUNCTIONAL COMPONENTS
+//"We’ve removed the constructor, and in fact, 
+//React supports a simpler syntax called functional 
+//components for component types like Square that only 
+//consist of a render method. 
+//Rather than define a class extending React.Component, 
+//simply write a function that takes props and returns 
+//what should be rendered."
+function Square(props)
+
+
+
+// //Square no longer keeps its own state; it receives its 
+// //value from its parent Board and informs its parent when 
+// //it’s clicked. We call components like this 
+// //controlled components.
+// class Square extends React.Component {
+
+//     // We are not using the state property of Square
+//     // Or "it doesn't have a state anymore"
+//     // constructor(props) {
+//     //     super(props);
+//     //     this.state = {
+//     //         value: null,
+//     //     };
+//     // }
+
+
+//     render() {
+//         return (
+//             //Now when the Square is clicked, it will call the onClick function that was passed through by Board.
+//             // The onClick prop on the Built-in DOM <button> tells React to set up a click event listener.
+//             // When the button is clicked, React will call the onClick event handler defined in Square's render() method.
+//                 // "Specified"? Function was defined somewhere else.
+//             // This event handler calls this.props.onClick(). Sauare's props were specified by the Board.
+//             // Board passed onClick = {() => this.handleClick(i)} tp SqUare, so, 
+//                 // when called, it runs this.handleClick(i) on the Board.
+//                 // notice *****(i)*****
+//             <button className="square" onClick={()=>this.props.onClick()}>
+//             {this.props.value}
+//             </button>
+//         );
+//         //Note that DOM <button> element’s onClick attribute has a special meaning to React, 
+//         //but we could have named Square’s onClick prop or Board’s handleClick method differently. 
+//         //It is, however, conventional in React apps to use on* names for the attributes and handle* 
+//         //for the handler methods.
+//     }
+// }
+
+
+
+
+
+
+
+
 
 /*
 When you want to aggregate data from multiple children 
