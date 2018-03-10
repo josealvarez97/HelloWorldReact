@@ -79,58 +79,46 @@ always in sync with each other and with the parent.
 */
 class Board extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            squares: Array(9).fill(null),
-            xIsNext: true,
-        };
-    }
+    // constructor(props) {
+    //     super(props);
+
+    //     // state was lifted up to Game...
+    //     // this.state = {
+    //     //     squares: Array(9).fill(null),
+    //     //     xIsNext: true,
+    //     // };
+    // }
 
 
-    handleClick(i) {
-        const squares = this.state.squares.slice();// was slick needed?
-        // We call .slice() to copy the squares array instead of mutating the existing array.
-        
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares:squares,
-            xIsNext: !this.state.xIsNext,
-        }); // update changes
-    }
+    
 
     renderSquare(i) {
     // Passing two important prompts from Board to Square
     return (
         <Square 
-            value={this.state.squares[i]} 
+            value={this.props.squares[i]} 
             // Board passed onClick = {() => this.handleClick(i)} tp SqUare, so, 
                 // when called, it runs this.handleClick(i) on the Board.
                 // notice *****(i)*****
-            onClick={() => this.handleClick(i)}
+            onClick={() => this.props.onClick(i)}
             />
         );
     }
 
     render() {
-        let status;
-        const winner = calculateWinner(this.state.squares.slice());
-        if (!winner) { 
-            status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
-        } else {
-            status = 'WINNER: ' + winner;
-        }
+        // let status;
+        // const winner = calculateWinner(this.state.squares.slice());
+        // if (!winner) { 
+        //     status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
+        // } else {
+        //     status = 'WINNER: ' + winner;
+        // }
 
         // var context_text = calculateWinner(this.state.squares) == null?  
         // const status = calculateWinner(this.state.squares) == null? 'Next player:' 
 
         return (
             <div>
-                <div className="stats">{status}</div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -152,14 +140,62 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            history: [{
+                squares: Array(9).fill(null),
+            }],
+            xIsNext: true,
+        }
+    }
+
+    handleClick(i) {
+
+        const history = this.state.history;
+        const current = history[history.length - 1];
+        const squares = current.squares.slice();// was slick needed?
+        // We call .slice() to copy the squares array instead of mutating the existing array.
+        
+        if (calculateWinner(squares) || squares[i]) {
+            return;
+        }
+        
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            history: history.concat([{
+                squares: squares,
+            }]),
+            xIsNext: !this.state.xIsNext,
+        }); // update changes
+    }
+
+
     render() {
+        const history = this.state.history;
+        const current = history[history.length - 1];
+
+        const winner = calculateWinner(current.squares);
+
+        let status;
+        const winner = calculateWinner(current.squares);
+        if (!winner) { 
+            status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
+        } else {
+            status = 'WINNER: ' + winner;
+        }
+
       return (
         <div className="game">
           <div className="game-board">
-            <Board />
+            <Board
+                squares = {current.squares}
+                onClick={(i)=>this.handleClick(i)} 
+            />
           </div>
           <div className="game-info">
-            <div>{/* status */}</div>
+            <div>{status}</div>
             <ol>{/* TODO */}</ol>
           </div>
         </div>
